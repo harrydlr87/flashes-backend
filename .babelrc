@@ -1,0 +1,21 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ],
+  "plugins": [
+    ["babel-plugin-object-values-to-object-keys"],
+    ["transform-object-rest-spread"],
+    ["transform-class-properties"],
+    ["module-resolver", {
+      "alias": {
+        "@Config": "./src/app/config",
+        "@Common": "./src/common",
+        "@Middleware": "./src/app/middleware"
+      }
+    }]
+  ]
+}

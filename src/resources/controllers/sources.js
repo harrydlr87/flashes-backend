@@ -4,10 +4,24 @@ import { lightCurves, bayesianBlocks, HIDDiagram } from './mock/data';
 
 export default express.Router()
   .get('/', (req, res) => {
+    const filters = {};
+    const { name, type, mission } = req.query;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
 
-    Source.paginate({}, { page, limit }).then(sources => res.json(sources));
+    if (name) {
+      filters.source = { $regex: name, $options: 'ig' };
+    }
+
+    if (type) {
+      filters.src_type = { $regex: type, $options: 'ig' };
+    }
+
+    if (mission) {
+      filters.tool_name = { $regex: mission, $options: 'ig' };
+    }
+
+    Source.paginate(filters, { page, limit }).then(sources => res.json(sources));
   })
   .get('/:id', (req, res, next) => {
     Source.findById(req.params.id, (err, source) => {
@@ -23,5 +37,10 @@ export default express.Router()
       };
       return res.json(sourceData);
     });
+  })
+  .get('/field/:name', (req, res, next) => {
+    Source.find().distinct(req.params.name, (err, fields) => {
+      if (err) return next(err);
+      return res.json(fields);
+    });
   });
-

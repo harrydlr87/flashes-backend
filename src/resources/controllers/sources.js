@@ -21,7 +21,7 @@ export default express.Router()
       filters.tool_name = { $regex: mission, $options: 'ig' };
     }
 
-    Source.paginate(filters, { page, limit }).then(sources => res.json(sources));
+    Source.paginate(filters, { page, limit, sort: { activityValue: -1 } }).then(sources => res.json(sources));
   })
   .get('/:id', (req, res, next) => {
     Source.findById(req.params.id, (err, source) => {

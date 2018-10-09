@@ -5,6 +5,7 @@ export const lightCurves = [
   { x: 180, y: 250, z: 280 },
   { x: 150, y: 400, z: 500 },
   { x: 110, y: 280, z: 200 },
+
 ];
 
 export const bayesianBlocks = [];

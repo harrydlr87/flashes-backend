@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import Source from '../models/source';
 import { lightCurves, bayesianBlocks, HIDDiagram } from './mock/data';
 
@@ -18,7 +19,7 @@ export default express.Router()
     }
 
     if (mission) {
-      filters.tool_name = { $regex: mission, $options: 'ig' };
+      filters.mission = { $regex: mission, $options: 'ig' };
     }
 
     Source.paginate(filters, { page, limit, sort: { activityValue: -1 } }).then(sources => res.json(sources));
@@ -36,6 +37,15 @@ export default express.Router()
         },
       };
       return res.json(sourceData);
+    });
+  })
+  .post('/list', (req, res, next) => {
+    const { sources } = req.body; // TODO refactor JSON parse
+    const sourcesId = JSON.parse(sources).map(source => mongoose.Types.ObjectId(source));
+
+    Source.find({ _id: { $in: sourcesId } }, { lc: 0 }, (err, sourcesData) => {
+      if (err) return next(err);
+      return res.json(sourcesData);
     });
   })
   .get('/field/:name', (req, res, next) => {

@@ -1,3 +1,3 @@
-const port = '19060';
+const port = '27017';
 
-export const uri = `mongodb://harry:temporal1@ds119060.mlab.com:${port}/astronomy`;
+export const uri = `mongodb://localhost:${port}/flashesDB`;

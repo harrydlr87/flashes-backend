@@ -1,4 +1,3 @@
-// import privateAccess from '@Middleware/private-access';
 import Missions from './controllers/missions';
 import Sources from './controllers/sources';
 import Users from './controllers/users';

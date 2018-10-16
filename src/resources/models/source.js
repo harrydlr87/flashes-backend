@@ -11,7 +11,7 @@ const SourceSchema = new mongoose.Schema({
   url_simbad: String,
   simbad_id: String,
   src_type: String,
-  tool_name: String,
+  mission: String,
   light_curves: [String],
 });
 

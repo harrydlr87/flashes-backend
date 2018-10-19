@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import Source from '../models/source';
-import { lightCurves, bayesianBlocks, HIDDiagram } from './mock/data';
+import { bayesianBlocks, HIDDiagram } from './mock/data';
 
 export default express.Router()
   .get('/', (req, res) => {
@@ -31,7 +31,7 @@ export default express.Router()
       const sourceData = {
         ...source._doc,
         data: {
-          lightCurves,
+          lightCurves: source._doc.lc,
           bayesianBlocks,
           HIDDiagram,
         },

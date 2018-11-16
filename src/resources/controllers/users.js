@@ -43,6 +43,23 @@ export default express.Router()
       return res.status(200).send({ auth: true, token });
     });
   })
+  .post('/unsubscribe', privateAccess, (req, res) => {
+    const userId = req.userId;
+    const { sourceId } = req.body;
+    const { badImplementation, badRequest } = res.boom;
+
+    if (!sourceId) {
+      return badRequest();
+    }
+
+    User.findOneAndUpdate({ _id: userId }, { $pull: { subscribedSources: sourceId } }, err => {
+      if (err) {
+        return badImplementation();
+      }
+
+      return res.status(200).send({ sourceId });
+    });
+  })
   .post('/subscribe', privateAccess, (req, res) => {
     const userId = req.userId;
     const { sourceId } = req.body;
@@ -52,12 +69,23 @@ export default express.Router()
       return badRequest();
     }
 
-    User.findOneAndUpdate({ _id: userId }, { $push: { subscribedSources: sourceId } }, (err) => {
+    User.findOneAndUpdate({ _id: userId }, { $push: { subscribedSources: sourceId } }, err => {
       if (err) {
         return badImplementation();
       }
 
-      return res.status(200).send();
+      return res.status(200).send({ sourceId });
+    });
+  })
+  .get('/user-data', privateAccess, (req, res) => {
+    const userId = req.userId;
+    const { badImplementation } = res.boom;
+    User.findById(userId, (err, user) => {
+      if (err) {
+        return badImplementation();
+      }
+
+      return res.status(200).send(user);
     });
   })
   .get('/subscriptions', privateAccess, (req, res) => {

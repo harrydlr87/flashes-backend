@@ -1,14 +1,21 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import withUserAccess from '@Middleware/with-user-access';
 import Source from '../models/source';
+import User from '../models/user';
 import { bayesianBlocks, HIDDiagram } from './mock/data';
 
 export default express.Router()
-  .get('/', (req, res) => {
+  .get('/', withUserAccess, (req, res) => {
+    const userId = req.userId;
     const filters = {};
-    const { name, type, mission } = req.query;
+    const { name, type, mission, subscribedSources } = req.query;
+    const { badImplementation } = res.boom;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
+
+    const sendPaginatedContent = filtersOptions => Source.paginate(filtersOptions, { page, limit, sort: { activityValue: -1 } })
+      .then(sources => res.json(sources));
 
     if (name) {
       filters.source = { $regex: name, $options: 'ig' };
@@ -22,7 +29,17 @@ export default express.Router()
       filters.mission = { $regex: mission, $options: 'ig' };
     }
 
-    Source.paginate(filters, { page, limit, sort: { activityValue: -1 } }).then(sources => res.json(sources));
+    if (subscribedSources && userId) {
+      User.findById(userId, (err, user) => {
+        if (err) {
+          return badImplementation();
+        }
+        filters._id = { $in: user.subscribedSources };
+        return sendPaginatedContent(filters);
+      });
+    } else {
+      return sendPaginatedContent(filters);
+    }
   })
   .get('/:id', (req, res, next) => {
     Source.findById(req.params.id, (err, source) => {

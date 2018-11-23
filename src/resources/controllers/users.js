@@ -2,17 +2,20 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import privateAccess from '@Middleware/private-access';
 import { createToken } from '@Common/utils/access';
+import { code } from '@Common/enums/mongo-error-codes';
 import User from '../models/user';
 
 export default express.Router()
   .post('/register', (req, res) => {
     const { password, name, email } = req.body;
-    const { badImplementation } = res.boom;
+    const { forbidden, badImplementation } = res.boom;
 
     User.create({ name, email, password: bcrypt.hashSync(password, 8) },
       (err, user) => {
         if (err) {
-          return badImplementation();
+          return err.code === code.DUPLICATED_KEY
+            ? forbidden('Email already registered')
+            : badImplementation();
         }
         // Create a token
         const token = createToken({ id: user._id });

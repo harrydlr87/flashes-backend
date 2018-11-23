@@ -1,9 +1,5 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node',
-1 verbose cli   '/usr/lib/nodejs/npm/bin/npm-cli.js',
-1 verbose cli   'run',
-1 verbose cli   'start-dev',
-1 verbose cli   '--scripts-prepend-node-path=auto' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'run', 'start-dev' ]
 2 info using npm@3.5.2
 3 info using node@v8.10.0
 4 verbose run-script [ 'prestart-dev', 'start-dev', 'poststart-dev' ]
@@ -11,7 +7,7 @@
 6 silly lifecycle landing-page-backend@0.0.0~prestart-dev: no script for prestart-dev, continuing
 7 info lifecycle landing-page-backend@0.0.0~start-dev: landing-page-backend@0.0.0
 8 verbose lifecycle landing-page-backend@0.0.0~start-dev: unsafe-perm in lifecycle true
-9 verbose lifecycle landing-page-backend@0.0.0~start-dev: PATH: /usr/share/npm/bin/node-gyp-bin:/home/harry/WebstormProjects/flashes-backend/node_modules/.bin:/home/harry/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+9 verbose lifecycle landing-page-backend@0.0.0~start-dev: PATH: /usr/share/npm/bin/node-gyp-bin:/home/harry/WebstormProjects/flashes-backend/node_modules/.bin:/home/harry/.local/bin:/home/harry/WebstormProjects/flashes-backend/node_modules/.bin:/home/harry/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 10 verbose lifecycle landing-page-backend@0.0.0~start-dev: CWD: /home/harry/WebstormProjects/flashes-backend
 11 silly lifecycle landing-page-backend@0.0.0~start-dev: Args: [ '-c', 'cross-env NODE_ENV=development nodemon index.js' ]
 12 silly lifecycle landing-page-backend@0.0.0~start-dev: Returned: code: 1  signal: null
@@ -29,7 +25,7 @@
 15 verbose pkgid landing-page-backend@0.0.0
 16 verbose cwd /home/harry/WebstormProjects/flashes-backend
 17 error Linux 4.15.0-38-generic
-18 error argv "/usr/bin/node" "/usr/lib/nodejs/npm/bin/npm-cli.js" "run" "start-dev" "--scripts-prepend-node-path=auto"
+18 error argv "/usr/bin/node" "/usr/bin/npm" "run" "start-dev"
 19 error node v8.10.0
 20 error npm  v3.5.2
 21 error code ELIFECYCLE
